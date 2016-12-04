@@ -1,12 +1,9 @@
-/**
- * 
- */
 'use strict'
 
 app.factory('UserService',['$http', '$q','$rootScope', function($http,$q,$rootScope){
 	console.log("UserService...")
 	
-	var BASE_URL="http://localhost:8081/CollaborationBackEnd"
+	var BASE_URL="http://localhost:8082/CollaborationBackEnd"
 		return{
 		fetchAllUsers: function(){
 			return $http.get(BASE_URL+'/users')
@@ -21,11 +18,39 @@ app.factory('UserService',['$http', '$q','$rootScope', function($http,$q,$rootSc
 					);
 		},
 		
-		myprofile: function(id){
-			console.log("myprofile call from backend")
-			return $http.get(BASE_URL+'/user/'+id)
+		
+		accept: function(user,id){
+			console.log("accepting in service")
+			return $http.put(BASE_URL+'/useraccept/'+user.id,user)
 			.then(
 					function(response){
+						return response.data;
+					},
+					function(errResponse){
+						console.error('Error while updating user');
+						return $q.reject(errResponse);
+					});
+		},
+		
+		reject: function(user,id){
+			console.log("rejecting in service")
+			return $http.put(BASE_URL+'/userreject/'+user.id,user)
+			.then(
+					function(response){
+						return response.data;
+					},
+					function(errResponse){
+						console.error('Error while rejecting user');
+						return $q.reject(errResponse);
+					});
+		},
+		
+		updateUser: function(user,id){
+			console.log("updating in the service of user")
+			return $http.put(BASE_URL+'/user/'+user.id,user)
+			.then(
+					function(response){
+						console.log("updated the  user in service")
 						return response.data;
 					},
 					function(errResponse){
@@ -46,17 +71,7 @@ app.factory('UserService',['$http', '$q','$rootScope', function($http,$q,$rootSc
 			});
 		},
 		
-		updateUser: function(user,id){
-			return $http.put(BASE_URL+'/user/'+id,user)
-			.then(
-					function(response){
-						return response.data;
-					},
-					function(errResponse){
-						console.error('Error while updating user');
-						return $q.reject(errResponse);
-					});
-		},
+		
 		
 		
 	deleteUser: function(id){
@@ -68,6 +83,19 @@ app.factory('UserService',['$http', '$q','$rootScope', function($http,$q,$rootSc
 				},
 				function(errResponse){
 					console.error('Error while deleting user');
+					return $q.reject(errResponse);
+				});
+	},
+	
+	myprofile: function(id){
+		console.log("myprofile call from backend")
+		return $http.get(BASE_URL+'/user/'+id)
+		.then(
+				function(response){
+					return response.data;
+				},
+				function(errResponse){
+					console.error('Error while updating user');
 					return $q.reject(errResponse);
 				});
 	},
@@ -88,6 +116,7 @@ app.factory('UserService',['$http', '$q','$rootScope', function($http,$q,$rootSc
 	},
 	
 	authenticate: function(user){
+		console.log("authenticating in userservice")
 		return $http.post(BASE_URL+'/user/authenticate/',user)
 		.then(
 				function(response){
@@ -95,7 +124,14 @@ app.factory('UserService',['$http', '$q','$rootScope', function($http,$q,$rootSc
 						$rootScope.currentUser = {
 								name:response.data.name,
 								id:response.data.id,
-								role:response.data.role
+								role:response.data.role,
+								email:response.data.email,
+								password:response.data.password,
+								dob:response.data.dob,
+								mob_no:response.data.mob_no,
+								address:response.data.address,
+								gender:response.data.gender
+								
 						};
 					}
 					return response.data;
