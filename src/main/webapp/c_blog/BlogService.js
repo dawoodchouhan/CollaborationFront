@@ -3,7 +3,7 @@
 app.factory('BlogService',['$http', '$q','$rootScope', function($http,$q,$rootScope){
 	console.log("BlogService...")
 	
-	var BASE_URL="http://localhost:8082/CollaborationBackEnd"
+	var BASE_URL="http://localhost:8081/collaborationbackend"
 		return{
 		fetchAllBlogs: function(){
 			return $http.get(BASE_URL+'/blogs')
