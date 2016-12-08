@@ -49,15 +49,6 @@ app.controller('UserController',['$http','$scope','UserService','$location','$ro
 				});
 			};
 	
-			
-			/*self.logout = function()
-			{
-				$rootScope.currentUser = {};
-				$cookieStore.remove('currentUser');
-			}
-			*/
-			
-			
 			self.updateUser = function(user, id){
 				UserService.updateUser(user,id).then(self.fetchAllUsers,
 						function(errResponse){
