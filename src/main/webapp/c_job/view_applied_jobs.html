@@ -4,19 +4,21 @@
 <meta charset="ISO-8859-1">
 <title>View Applied Jobs</title>
 </head>
-<body>
+<body style="background:#f3f3f3 url('resources/images/images.jpg');">
 
 <div class="container" ng-controller="JobController as ctrl">
 
-<div ng-repeat="Job in ctrl.jobsapplied">
+<div ng-repeat="jobapplied in ctrl.jobsapplied">
 <div class="form-group">
 
-ID:<label>{{Job.JobID}}</label><br>
-UserName:<label>{{Job.UserID}}</label><br>
-DATE:<label>{{Job.dateapplied}}</label><br>
+Job ID:<label>{{jobapplied.jobID}}</label><br>
+UserName:<label>{{jobapplied.userID}}</label><br>
+Status:<label>{{jobapplied.status}}</label><br>
+Remarks:<label>{{jobapplied.remarks}}</label><br>
 
 
-<br><br>
+
+<br>
 </div>
 
 </div>

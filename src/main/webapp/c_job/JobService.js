@@ -21,6 +21,33 @@
 				);
 			},
 	
+			
+			accept: function(jobapplied,id){
+				console.log("accepting in service")
+				return $http.put(BASE_URL+'/jobaccept/'+jobapplied.id,jobapplied)
+				.then(
+						function(response){
+							return response.data;
+						},
+						function(errResponse){
+							console.error('Error while updating jobapplied');
+							return $q.reject(errResponse);
+						});
+			},	
+			
+			reject: function(jobapplied,id){
+				console.log("rejecting in service")
+				return $http.put(BASE_URL+'/jobreject/'+jobapplied.id,jobapplied)
+				.then(
+						function(response){
+							return response.data;
+						},
+						function(errResponse){
+							console.error('Error while updating jobapplied');
+							return $q.reject(errResponse);
+						});
+			},	
+			
 	
 	getJobDetails: function(jobID){
 		console.log("Getting job details of" + jobID)
@@ -107,5 +134,17 @@
     			  });
       },  
 
+      getAllJobsApplied: function(){
+    	  return $http.get(BASE_URL+'/getAllJobsApplication/')
+    	  .then(
+    			  function(response){
+    				  return response.data;
+    			  },
+    			  function(errResponse){
+    				  console.error('Error while getting all jobsapplied');
+    				  return $q.reject(errResponse);
+    			  });
+      },  
+      
 	};	
 	}])

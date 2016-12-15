@@ -19,12 +19,19 @@
     
       <div ng-repeat="friend in ctrl.friends | filter: sear_text">
       
-           <fieldset>
+           <fieldset >
                <legend></legend>
                
-                 <p>Name: {{friend.friendID}} &nbsp; &nbsp; &nbsp; Status: {{friend.status}}</p>
+                 <p>Name: {{friend.friendID}} &nbsp; &nbsp; &nbsp; Status: {{friend.status}} &nbsp; &nbsp; &nbsp;
+                 <button ng-hide="friend.status=='A' || friend.status=='R'" type="button" 
+                            ng-click="ctrl.friendaccept(friend)" class="btn btn-warning btn-sm">ACCEPT</button>
+                  <button ng-hide="friend.status=='A' || friend.status=='R'" type="button" 
+                            ng-click="ctrl.friendreject(friend)" class="btn btn btn-danger btn-sm">REJECT</button>
+                 </p>
+                 
+                 <div  ng-show="friend.status=='A'">
                    <a href="#/chat">Send Message</a>
-                   
+                   </div>
                    
                    
                    

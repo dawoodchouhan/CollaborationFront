@@ -7,6 +7,7 @@ app.factory('FriendService', ['$http', '$q', '$rootScope', function($http, $q, $
 	var BASE_URL="http://localhost:8081/collaborationbackend"
 		return{
 		getMyFriends: function(){
+			console.log("Getting friends from service")
 			return $http.get(BASE_URL+'/myFriends')
 			.then(
 					function(response){
@@ -14,13 +15,41 @@ app.factory('FriendService', ['$http', '$q', '$rootScope', function($http, $q, $
 					},
 					function(errResponse){
 						console.error('Error while fetching Friends');
-						return$q.reject(errResponse);
+						return $q.reject(errResponse);
 					});
 			},
+			
+			accept: function(friend,id){
+				console.log("accepting in friend")
+				return $http.put(BASE_URL+'/friendaccept/'+friend.id,friend)
+				.then(
+						function(response){
+							return response.data;
+						},
+						function(errResponse){
+							console.error('Error while friend user');
+							return $q.reject(errResponse);
+						});
+			},
+			
+			reject: function(friend,id){
+				console.log("rejecting in friend")
+				return $http.put(BASE_URL+'/friendreject/'+friend.id,friend)
+				.then(
+						function(response){
+							return response.data;
+						},
+						function(errResponse){
+							console.error('Error while friend user');
+							return $q.reject(errResponse);
+						});
+			},
+			
 			sendFriendRequest: function(friendID){
 				return $http.post(BASE_URL+'/addFriend/'+friendID)
 				.then(
 						function(response){
+							
 							return response.data;
 						},
 						function(errResponse){

@@ -21,7 +21,7 @@ app.controller('JobController',['JobService','$scope','$location','$rootScope',
 			id : '',
 			userID : '',
 			jobID :'',
-			dateApplied :'',
+			dateTime :'',
 			remarks :'',
 			status :'',
 			errorCode:'',
@@ -29,6 +29,34 @@ app.controller('JobController',['JobService','$scope','$location','$rootScope',
 	};
 	self.jobsapplied=[];
 	
+	
+	self.jobaccept = function(jobapplied){
+		{
+			self.accept(jobapplied,jobapplied.id);
+		}
+	};
+
+	self.accept =function (jobapplied,id){
+		console.log('accepting the jobapplied');
+		JobService.accept(jobapplied,id).then(self.getAllJobsApplied,
+		  function(errresponse){
+			console.log('Error while accepting jobapplied')
+		});
+	};
+	
+	self.jobreject = function(jobapplied){
+		{
+			self.reject(jobapplied,jobapplied.id);
+		}
+	};
+
+	self.reject =function (jobapplied,id){
+		console.log('rejecting the jobapplied');
+		JobService.reject(jobapplied,id).then(self.getAllJobsApplied,
+		  function(errresponse){
+			console.log('Error while rejecting jobapplied')
+		});
+	};
 	
 	self.applyForJob = applyForJob
 		function applyForJob (jobID){
@@ -118,7 +146,21 @@ app.controller('JobController',['JobService','$scope','$location','$rootScope',
 	        			});
 	        };
 	        
+	        self.getAllJobsApplied=function(){
+	        	console.log('calling the method getAllJobsApplied');
+	        	JobService.getAllJobsApplied()
+	        	.then(
+	        			function(d){
+	        				self.jobsapplied=d;
+	        			},
+	        			function(errResponse){
+	        				console.error('Error while fetching all opened jobs');
+	        			});
+	        };
+	        
           self.getAllJobs();
+          
+          self.getAllJobsApplied();
           
           self.submit=function(){
         	  {

@@ -30,6 +30,36 @@ app.controller("FriendController", ['UserService','$scope','FriendService','$loc
 	};
 	self.users = [];
 	
+	self.sendRequestCount=false;
+	
+	self.friendaccept = function(friend){
+		{
+			self.accept(friend,friend.id);
+		}
+	};
+
+	self.accept =function (friend,id){
+		console.log('accepting the user');
+		FriendService.accept(friend,id).then(self.fetchAllUsers,
+		  function(errresponse){
+			console.log('Error while accepting user')
+		});
+	};
+	
+	self.friendreject = function(friend){
+		{
+			self.reject(friend,friend.id);
+		}
+	};
+
+	self.reject =function (friend,id){
+		console.log('accepting the user');
+		FriendService.reject(friend,id).then(self.fetchAllUsers,
+		  function(errresponse){
+			console.log('Error while accepting user')
+		});
+	};
+	
 	self.sendFriendRequest=sendFriendRequest
 	function sendFriendRequest(friendID)
 	{
@@ -38,9 +68,11 @@ app.controller("FriendController", ['UserService','$scope','FriendService','$loc
 		.then
 		(function(d){
 			self.friend = d;
-			alert("Friend request sent")
+			self.sendRequestCount=true;
+			alert("Friend request sent"+self.sendRequestCount)
 		},
 		  function(errResponse){
+			self.sendRequestCount=false;
 			console.error('Error while sending friend request');
 		}
 		);
@@ -52,7 +84,7 @@ app.controller("FriendController", ['UserService','$scope','FriendService','$loc
 		.then(
 		     function(d)	{
 		    	 self.friends = d;
-					alert("Got the friend request")
+					
 		     },
 		     function(errResponse){
 					console.error('Error while sending friend request');
